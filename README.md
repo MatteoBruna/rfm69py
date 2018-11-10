@@ -1,4 +1,4 @@
-#Python script to operate rfm69 ardio using Raspberry Pi
+# Python script to operate rfm69 ardio using Raspberry Pi
 
 Code based on:
 https://github.com/etrombly/RFM69
