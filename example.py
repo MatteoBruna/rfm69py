@@ -4,8 +4,9 @@ import RFM69
 from RFM69registers import *
 import datetime
 import time
+import struct
 
-test = RFM69.RFM69(RF69_915MHZ, 1, 1, True)
+test = RFM69.RFM69(RF69_433MHZ, 1, 100, False)
 print "class initialized"
 print "reading all registers"
 results = test.readAllRegs()
@@ -18,16 +19,21 @@ test.setHighPower(True)
 print "Checking temperature"
 print test.readTemperature(0)
 print "setting encryption"
-test.encrypt("1234567891011121")
-print "sending blah to 2"
-if test.sendWithRetry(2, "blah", 3, 20):
+test.encrypt("sampleEncryptKey")
+print "sending blah to 99"
+if test.sendWithRetry(99, "blah", 3, 20):
     print "ack recieved"
 print "reading"
 while True:
     test.receiveBegin()
     while not test.receiveDone():
         time.sleep(.1)
-    print "%s from %s RSSI:%s" % ("".join([chr(letter) for letter in test.DATA]), test.SENDERID, test.RSSI)
+    print(len(test.DATA))
+    data = test.DATA[:2]+[0x00, 0x00]+test.DATA[2:]
+    id, uptime, temperature, humidity = struct.unpack("hLff", "".join([chr(x) for x in data]))
+    
+    print "id={} uptime={} temperature={} humidity={} from {} RSSI: {}".format(
+        id, uptime, temperature, humidity, test.SENDERID, test.RSSI)
     if test.ACKRequested():
         test.sendACK()
 print "shutting down"

@@ -1,14 +1,14 @@
-# Main repo
+#Python script to operate rfm69 ardio using Raspberry Pi
 
-* https://github.com/etrombly/RFM69
+Code based on:
+https://github.com/etrombly/RFM69
 
-# Description
-
-This is a port of the RFM69 library for arduino from https://github.com/LowPowerLab/RFM69 to python for raspberry pi.
+Communications to nodes based on:
+https://github.com/LowPowerLab/RFM69
 
 # Hardware setup
 
-Attach the RFM69 as follows:
+Attach the RFM69 as follows: (to check)
 
 | RFM pin | Pi pin  
 | ------- |-------
@@ -21,9 +21,6 @@ Attach the RFM69 as follows:
 | Ground  | 25  
 | RESET   | 28
 
-You can change the interrupt pin (GPIO24) in the class init.
-
-Remember to choose correct frequency for your hardware (315, 433, 868 or 915 MHz).
 
 # Prerequisites
 
@@ -36,4 +33,3 @@ git clone https://github.com/Gadgetoid/py-spidev
 cd py-spidev
 sudo make install
 ```
-
