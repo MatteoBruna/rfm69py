@@ -14,12 +14,12 @@ for result in results:
     print result
 print "Performing rcCalibration"
 test.rcCalibration()
-print "setting high power"
-test.setHighPower(True)
+#print "setting high power"
+#test.setHighPower(True)   #Raspberry pi 3.3V pin cannot supply enough power for this...it's ok as long as you just receive
 print "Checking temperature"
 print test.readTemperature(0)
-print "setting encryption"
-test.encrypt("sampleEncryptKey")
+#print "setting encryption"
+#test.encrypt("sampleEncryptKey")
 print "sending blah to 99"
 if test.sendWithRetry(99, "blah", 3, 20):
     print "ack recieved"
