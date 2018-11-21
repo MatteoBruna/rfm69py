@@ -20,20 +20,22 @@ print "Checking temperature"
 print test.readTemperature(0)
 #print "setting encryption"
 #test.encrypt("sampleEncryptKey")
-print "sending blah to 99"
-if test.sendWithRetry(99, "blah", 3, 20):
+print "sending blah to 2"
+if test.sendWithRetry(2, "blah", 3, 20):
     print "ack recieved"
 print "reading"
 while True:
     test.receiveBegin()
     while not test.receiveDone():
         time.sleep(.1)
-    print(len(test.DATA))
-    data = test.DATA[:2]+[0x00, 0x00]+test.DATA[2:]
-    id, uptime, temperature, humidity = struct.unpack("hLff", "".join([chr(x) for x in data]))
+    print(len(test.DATA)) #print payload size
+    #print(test.DATA)
+    data = test.DATA[:2]+[0x00, 0x00]+test.DATA[2:] #have to do like this...why?
+    #data=test.DATA
+    id, uptime, temperature, humidity = struct.unpack("hLhh", "".join([chr(x) for x in data]))
     
     print "id={} uptime={} temperature={} humidity={} from {} RSSI: {}".format(
-        id, uptime, temperature, humidity, test.SENDERID, test.RSSI)
+        id, uptime, temperature, humidity, test.SENDERID, test.RSSI) #Now temperature and humidity must be divided by 10 
     if test.ACKRequested():
         test.sendACK()
 print "shutting down"
