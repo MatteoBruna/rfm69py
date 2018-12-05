@@ -6,7 +6,9 @@ import datetime
 import time
 import struct
 
+
 try:
+    f= open("datax.txt","a+")
     test = RFM69.RFM69(RF69_433MHZ, 1, 100, False)
     #print "class initialized"
     #print "reading all registers"
@@ -31,14 +33,18 @@ try:
             time.sleep(.1)
         #print(len(test.DATA)) #print payload size
         #print(test.DATA)
-        data = test.DATA[:2]+[0x00, 0x00]+test.DATA[2:] #have to do like this...why?
+        print "%s from %s RSSI:%s" % ("".join([chr(letter) for letter in test.DATA]), test.SENDERID, test.RSSI)
+        datax = ("".join([chr(letter) for letter in test.DATA]))
+        print datax
+        f.write("%s \n" % ("".join([chr(letter) for letter in test.DATA])))
+        #data = test.DATA[:2]+[0x00, 0x00]+test.DATA[2:] #have to do like this...why?
         #data=test.DATA
-        id, uptime, temperature, humidity = struct.unpack("hLhh", "".join([chr(x) for x in data]))
+        #id, uptime, temperature, humidity = struct.unpack("hLhh", "".join([chr(x) for x in data]))
         
         #print "id={} uptime={} temperature={} humidity={} from {} RSSI: {}".format(
          #   id, uptime, temperature, humidity, test.SENDERID, test.RSSI) #Now temperature and humidity must be divided by 10 
-        print "{},{},{},{},{},{}".format(
-            id, uptime, temperature, humidity, test.SENDERID, test.RSSI)#Now temperature and humidity must be divided by 10 
+        #print "{},{},{},{},{},{}".format(
+            #id, uptime, temperature, humidity, test.SENDERID, test.RSSI)#Now temperature and humidity must be divided by 10 
         
         if test.ACKRequested():
             test.sendACK()
