@@ -6,7 +6,12 @@ import RPi.GPIO as GPIO
 import time
 
 class RFM69(object):
-    def __init__(self, freqBand, nodeID, networkID, isRFM69HW = False, intPin = 22, rstPin = 18, spiBus = 0, spiDevice = 0):
+    def __init__(self, freqBand, nodeID, networkID,
+                 isRFM69HW = False,
+                 intPin = 22, rstPin = 18,
+                 spiBus = 0, spiDevice = 0,
+                 bitRate = RF_BITRATEMSB_55555
+                 ):
 
         self.freqBand = freqBand
         self.address = nodeID
@@ -47,8 +52,8 @@ class RFM69(object):
           #no shaping
           0x02: [REG_DATAMODUL, RF_DATAMODUL_DATAMODE_PACKET | RF_DATAMODUL_MODULATIONTYPE_FSK | RF_DATAMODUL_MODULATIONSHAPING_00],
           #default:4.8 KBPS
-          0x03: [REG_BITRATEMSB, RF_BITRATEMSB_55555],
-          0x04: [REG_BITRATELSB, RF_BITRATELSB_55555],
+          0x03: [REG_BITRATEMSB, bitRate],
+          0x04: [REG_BITRATELSB, bitRate],
           #default:5khz, (FDEV + BitRate/2 <= 500Khz)
           0x05: [REG_FDEVMSB, RF_FDEVMSB_50000],
           0x06: [REG_FDEVLSB, RF_FDEVLSB_50000],
