@@ -9,7 +9,10 @@ import struct
 
 try:
     #f= open("datax.txt","a+")
-    test = RFM69.RFM69(RF69_433MHZ, 1, 100, False)
+    test = RFM69.RFM69(RF69_433MHZ, 1, 100, False,
+                       intPin=22, rstPin=18,
+                       bitRateMsb=RF_BITRATEMSB_1200,
+                       bitRateLsb=RF_BITRATELSB_1200)
     #print "class initialized"
     #print "reading all registers"
     #results = test.readAllRegs()
