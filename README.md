@@ -19,7 +19,7 @@ Attach the RFM69 as follows: (to check)
 | CLK     | 23  
 | NSS     | 24  
 | Ground  | 25  
-| RESET   | 28
+| RESET   | 29
 
 
 # Prerequisites

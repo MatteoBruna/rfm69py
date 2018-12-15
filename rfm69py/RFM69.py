@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 
-from .RFM69registers import *
+from RFM69registers import *
 import spidev
 import RPi.GPIO as GPIO
 import time
@@ -8,11 +8,11 @@ import time
 class RFM69(object):
     def __init__(self, freqBand, nodeID, networkID,
                  isRFM69HW = False,
-                 intPin = 22, rstPin = 18,
+                 intPin = 18, rstPin = 29,
                  spiBus = 0, spiDevice = 0,
                  bitRate = RF_BITRATEMSB_55555
                  ):
-
+        
         self.freqBand = freqBand
         self.address = nodeID
         self.networkID = networkID
@@ -37,8 +37,7 @@ class RFM69(object):
 
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(self.intPin, GPIO.IN)
-        GPIO.setup(self.rstPin, GPIO.OUT);
-
+        GPIO.setup(self.rstPin, GPIO.OUT)
 
         frfMSB = {RF69_315MHZ: RF_FRFMSB_315, RF69_433MHZ: RF_FRFMSB_433,
                   RF69_868MHZ: RF_FRFMSB_868, RF69_915MHZ: RF_FRFMSB_915}
@@ -246,7 +245,7 @@ class RFM69(object):
             ack = 0x80
         elif requestACK:
             ack = 0x40
-        if isinstance(buff, basestring):
+        if isinstance(buff, "".__class__):  # py2/3 compat
             self.spi.xfer2([REG_FIFO | 0x80, len(buff) + 3, toAddress, self.address, ack] + [int(ord(i)) for i in list(buff)])
         else:
             self.spi.xfer2([REG_FIFO | 0x80, len(buff) + 3, toAddress, self.address, ack] + buff)
